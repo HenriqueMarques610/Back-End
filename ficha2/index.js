@@ -182,3 +182,68 @@ array2d=[[3,5,6,7]
         [9,4,2,7]]
 
 //var x=array2d[i][j];
+
+//Alinea 9 ---------------------------------
+
+var estudante1 = {firstName: "Pedro",lastName: "Marques",age:20,grade:16.5, getGrade: function(){
+    return this.firstName+" "+this.lastName+"com idade: "+this.age+" teve: "+ this.grade
+}}
+var estudante2 = {firstName: "David",lastName: "Tiago",age:21,grade:15.5, getGrade: function(){
+    return this.firstName+" "+this.lastName+"com idade: "+this.age+" teve: "+ this.grade
+}}
+var estudante3 = {firstName: "Sofia",lastName: "Bond",age:22,grade:14.5, getGrade: function(){
+    return this.firstName+" "+this.lastName+"com idade: "+this.age+" teve: "+ this.grade
+}}
+var estudante4 = {firstName: "Marco",lastName: "Saint",age:23,grade:13.5, getGrade: function(){
+    return this.firstName+" "+this.lastName+"com idade: "+this.age+" teve: "+ this.grade
+}}
+var estudante5 = {firstName: "Andre",lastName: "Raul",age:24,grade:12.5, getGrade: function(){
+    return this.firstName+" "+this.lastName+"com idade: "+this.age+" teve: "+ this.grade
+}}
+var estudante6 = {firstName: "Ana",lastName: "Duarte",age:25,grade:11.5, getGrade: function(){
+    return this.firstName+" "+this.lastName+"com idade: "+this.age+" teve: "+ this.grade
+}}
+var estudante7 = {firstName: "Joana",lastName: "Matos",age:26,grade:17.5, getGrade: function(){
+    return this.firstName+" "+this.lastName+"com idade: "+this.age+" teve: "+ this.grade
+}}
+var estudante8 = {firstName: "Paulo",lastName: "Figueira",age:27,grade:18.5, getGrade: function(){
+    return this.firstName+" "+this.lastName+"com idade: "+this.age+" teve: "+ this.grade
+}}
+var estudante9 = {firstName: "Ivan",lastName: "Santos",age:28,grade:19.5, getGrade: function(){
+    return this.firstName+" "+this.lastName+"com idade: "+this.age+" teve: "+ this.grade
+}}
+
+var estudantesList=[];
+
+estudantesList.push(estudante1);
+estudantesList.push(estudante2);
+estudantesList.push(estudante3);
+estudantesList.push(estudante4);
+estudantesList.push(estudante5);
+estudantesList.push(estudante6);
+estudantesList.push(estudante7);
+estudantesList.push(estudante8);
+estudantesList.push(estudante9);
+
+
+function mostrarNotas(array){
+    for (let i = 0; i < array.length; i++) {
+        const estudante = array[i];
+        console.log(estudante.getGrade());
+    }
+}
+
+console.log("Alinea 9")
+mostrarNotas(estudantesList)
+
+function obterMelhorNota(array){
+    var max=array[0];
+    for (let i = 0; i < array.length; i++) {
+        if(array[i].grade>max.grade){
+            max = array[i];
+        }  
+    }
+    return max;
+}
+var melhorNota= obterMelhorNota(estudantesList);
+console.log(melhorNota.getGrade());
