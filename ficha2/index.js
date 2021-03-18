@@ -100,7 +100,7 @@ function contarletra(str,letra){
 
 
 var count = contarletra("HellE","e");
-console.log(count);
+//console.log(count);
 
 //Alinea 5 ---------------------------
 
@@ -122,7 +122,63 @@ function calcularTrabalho(he,me,se,hs,ms,ss){
     var minutosRestantes=horasRestantes%60;
     var minutos=(horasRestantes-minutosRestantes)/60;
 
-    console.log("Tempo de trabalho: "+hours+":"+minutos+":"+minutosRestantes);
+    //console.log("Tempo de trabalho: "+hours+":"+minutos+":"+minutosRestantes);
 }
 
 calcularTrabalho(8,35,0,16,0,30)
+
+//Alinea 6 ---------------------------------
+
+function retangulo(largura,altura){
+
+    for (let j = 0; j < altura; j++) {
+        var linha="";
+        for (let i = 0; i < largura; i++) {
+            linha+="*";
+        }
+        //console.log(linha)
+    }
+}
+
+retangulo(5,3);
+
+//Alinea 7 ---------------------------------
+
+function triangulo(altura){
+
+    var linha="";
+    for (let j = 1; j <= altura; j++) {
+        linha +="*"
+        //console.log(linha)
+    }
+}
+
+triangulo(10);
+
+//Alinea 8 --------------------------------
+
+function caixa(largura,altura){
+
+    for (let j = 0; j < altura; j++) {
+        var linha="";
+        for (let i = 0; i < largura; i++) {
+            if(j==0 || j==altura -1 || i==0 || i== largura -1){
+                linha +="*"
+            }
+            else{
+                linha += " ";
+            }
+        }
+        console.log(linha)
+    }
+}
+
+console.log("");
+
+caixa(10,10);
+
+array2d=[[3,5,6,7]
+        [9,4,1,3]
+        [9,4,2,7]]
+
+//var x=array2d[i][j];
