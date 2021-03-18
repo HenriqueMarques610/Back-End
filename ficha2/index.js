@@ -101,3 +101,28 @@ function contarletra(str,letra){
 
 var count = contarletra("HellE","e");
 console.log(count);
+
+//Alinea 5 ---------------------------
+
+function calcularTrabalho(he,me,se,hs,ms,ss){
+
+    if(he<8 || hs>18){
+        console.log("Horario nao permitido");
+        return
+    }
+
+    var enterInSeconds=he*3600+me*60+se;
+    var exitInSeconds=hs*3600+ms*60+ss;
+
+    var timeInSeconds=exitInSeconds-enterInSeconds;
+
+    var horasRestantes=timeInSeconds%3600;
+    var hours=(timeInSeconds-horasRestantes)/3600;
+
+    var minutosRestantes=horasRestantes%60;
+    var minutos=(horasRestantes-minutosRestantes)/60;
+
+    console.log("Tempo de trabalho: "+hours+":"+minutos+":"+minutosRestantes);
+}
+
+calcularTrabalho(8,35,0,16,0,30)
