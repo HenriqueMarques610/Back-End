@@ -246,4 +246,52 @@ function obterMelhorNota(array){
     return max;
 }
 var melhorNota= obterMelhorNota(estudantesList);
-console.log(melhorNota.getGrade());
+console.log("Melhor nota: "+melhorNota.getGrade());
+
+function obterPiorNota(array){
+    var max=array[0];
+    for (let i = 0; i < array.length; i++) {
+        if(array[i].grade<max.grade){
+            max = array[i];
+        }  
+    }
+    return max;
+}
+var piorNota= obterPiorNota(estudantesList);
+console.log("Pior nota: "+piorNota.getGrade());
+
+function obterNotasNegativas(array){
+    console.log("Nota Negativa")
+    for (let i = 0; i < array.length; i++) {
+        const student = array[i];
+        if(array[i].grade<9.5){
+            console.log(estudante.getGrade());
+        }
+    }
+}
+var negativas=obterNotasNegativas(estudantesList)
+
+function getAverage(array){
+    var average=0;
+    for (let i = 0; i < array.length; i++) {
+        average += array[i].grade;
+    }
+    average=average / array.length;
+    return average
+}
+var studentAverage=getAverage(estudantesList);
+console.log("Media: "+studentAverage);
+
+function getClosestFromAverage(array){
+    var average=getAverage(array);
+    var min=array[0];
+    var index=0;
+    for (let i = 0; i < array.length; i++) {
+        var diff=Math.abs(array[i].grade - average);
+        if(diff<min){
+            min=diff;
+            index=i;
+        }
+    }
+    return array[index];
+}
