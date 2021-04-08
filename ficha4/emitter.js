@@ -14,3 +14,4 @@ Emitter.prototype.on =function(type,listener){
 var emitter=new Emitter();
 //invocacao do metodo ON
 emitter.on("Tipo","Ouvinte")
+
