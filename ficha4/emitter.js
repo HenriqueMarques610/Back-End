@@ -1,17 +1,32 @@
-class Emitter{
-    constructor(){
+class Emitter {
+    constructor() {
         //Propriedade
-        this.events= {};
+        this.events = {};
     }
 }
 
 //Funcao
-Emitter.prototype.on =function(type,listener){
-    console.log("Type: "+type+", Listener: "+listener);
+Emitter.prototype.on = function (type, listener) {
+    if (this.events[type] == undefined) {
+        this.events[type] = [];
+    }
+    this.events[type].push(listener)
+
+    //var z=this.events.teste;//2
+    //var y=this.events.prog;//3
+    //var w=this.events.benfica//Nulo ou undefined
+    //Mesma funcao que o que esta em baixo
+    //this.events["login"]
+    //this.events[type] =[] ;
 }
 
-//Criacao de uma nova instancia do class Emitter
-var emitter=new Emitter();
-//invocacao do metodo ON
-emitter.on("Tipo","Ouvinte")
+Emitter.prototype.emit = function (type) {
+    if (this.events[type] != undefined) {
+        this.events[type].forEach(function (listener) {
+            listener();
+        });
+    }
+}
 
+module.exports=Emitter;
+var x = 0
