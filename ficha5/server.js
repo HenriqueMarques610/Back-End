@@ -73,7 +73,7 @@ app.delete('/users/:id', function (request, response) {
   }
 })
 
-app.get('/users/:id',(request,response)=>{
+app.get('/users/:id', (request, response) => {
   var persons = JSON.parse(readFileSync('./persons.json'))
   var id = request.params.id
   var person = persons["person" + id]
@@ -85,20 +85,20 @@ app.get('/users/:id',(request,response)=>{
   }
 })
 
-app.put('/users/:id',(request,response)=>{
-  var persons = JSON.parse(readFileSync('./persons.json'))
-  var id = request.params.id
-  var person=persons["person" + id]
+app.put('/users/:id', (request, response) => {
+  var persons = JSON.parse(readFileSync('./persons.json'));
+  var id = request.params.id;
+  var person = persons["person" + id];
   if (person != undefined) {
-    persons["person" + id] = request.body
-    persons["person" + id].id = id
-    writeFileSync('./persons.json', JSON.stringify(persons))
-    response.send(persons)
+    persons["person" + id] = request.body;
+    persons["person" + id].id = id;
+    writeFileSync('./persons.json', JSON.stringify(persons));
+    responde.send(persons);
   }
   else {
-    response.send("ID Inexistente")
+    response.send("Id inexistente!");
   }
-})
+});
 
 //Metodo que arranca o servidor http e fica à escuta
 app.listen(port, () => {
