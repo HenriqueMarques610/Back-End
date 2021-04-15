@@ -22,5 +22,13 @@
         "gender": "female",
         "age": 55,
         "id": 3
+    },
+    "person4": {
+        "firstName": "Tiago",
+        "lastName": "Miguel",
+        "profession": "Cleaner",
+        "gender": "male",
+        "age": 55,
+        "id": 4
     }
 }
