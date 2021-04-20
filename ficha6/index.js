@@ -13,20 +13,22 @@ app.use(express.urlencoded({ extended: false }));
 // Default get endpoint
 app.get('/', (request, response) => {
     //var body= "<!DOCTYPE html><html><title>HTML Tutorial</title><body><h1>This is a heading</h1><p>This is a paragraph.</p></body></html>";
-    var file=fs.readFileSync("index.html")
-      response.writeHead(200, {
+    var file = fs.readFileSync("index.html",'utf-8')
+
+    file=file.replace('{date}','20/04/21')
+    response.writeHead(200, {
         'Content-Lenght': Buffer.byteLength(file),
         'Content-Type': 'Text/html'
-      });
-      response.end(file);
+    });
+    response.end(file);
 });
 
 // Método que arranca o servidor http e fica à escuto
 app.listen(port, () => {
-  console.log(`Example app listening at http://localhost:${port}`);
+    console.log(`Example app listening at http://localhost:${port}`);
 
 
-  fs.open('log.txt', 'a', function (err, fd) {
-    console.log("File was created " , fd);
-  });
+    fs.open('log.txt', 'a', function (err, fd) {
+        console.log("File was created ", fd);
+    });
 });
