@@ -13,7 +13,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 //middleware function
-app.use(function(request,response,next){
+app.use(function (request, response, next) {
     fs.appendFileSync("./log.txt", request.path + ", " + request.method + ": " + new Date() + "\n")
     next()
 })
@@ -47,7 +47,7 @@ app.get('/user/:name', (request, response) => {
     response.end(file);
 });
 
-app.get("/log",(request,response)=>{
+app.get("/log", (request, response) => {
     var file = fs.readFileSync("log.txt", 'utf-8')
     response.writeHead(200, {
         'Content-Lenght': Buffer.byteLength(file),
@@ -56,19 +56,29 @@ app.get("/log",(request,response)=>{
     response.end(file);
 })
 
-app.get("/log.txt",(request,response)=>{
-    response.download("./log.txt",function(err){
-        if(err !=undefined){
+app.get("/log.txt", (request, response) => {
+    response.download("./log.txt", function (err) {
+        if (err != undefined) {
             response.status(404)
             response.end("Ocorreu um erro ao ler o ficheiro. " + err.message)
         }
-        else{
+        else {
             //Encontrou o ficheiro com sucesso
         }
     })
 })
 
-app.get("/clear",(request,response)=>{
+app.get("/clear", (request, response) => {
+    fs.unlink("./log.txt", function name(err) {
+        if (err) {
+            response.status(404)
+            response.end("Ocorreu um erro ao ler o ficheiro. " + err.message)
+        }
+        else {
+            response.send("File Deleted")
+        }
+    })
+
     fs.unlinkSync("./log.txt")
     response.send("File Deleted")
 })
