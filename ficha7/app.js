@@ -101,6 +101,25 @@ app.get('/persons/:id/:profession',(request,response)=>{
     })
 })
 
+app.put('/persons/:id',(request,response)=>{
+    var id=request.params.id
+    var details=request.body
+    dbconnection.query('UPDATE persons ? where ID=?',[details,id],(error,results,fields)=>{
+        if(error){
+            response.status(404)
+            response.end(error.message)
+        }
+        if(results.length==0){
+            response.status(404)
+            response.end("ID not found")
+        }
+        else{
+            details.id=id
+            response.send(details)
+        }
+    })
+})
+
 // Método que arranca o servidor http e fica à escuto
 app.listen(port, () => {
     console.log(`Example app listening at http://localhost:${port}`);
