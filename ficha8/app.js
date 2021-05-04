@@ -2,6 +2,49 @@
 const { response } = require('express');
 const express = require('express')
 const mysql = require('mysql')
+const swaggerJsDoc=require('swagger-jsdoc')
+const swaggerUi=require('swagger-ui-express')
+
+const swaggerOptions={
+    swaggerDefinition:{
+        info:{
+            version:"1.0.0",
+            title:"Ficha 8",
+            description:"Ficha 8 Information",
+            contact:{
+                name:"TSPI-DWB"
+            },
+            servers:["http://localhost:3000"],
+        },
+        definitions:{
+            "Person":{
+                "type":"object",
+                "properties":{
+                    "id":{
+                        "type":"integer",
+                        "x-primary-key":true
+                    },
+                    "firstname":{
+                        "type":"string"
+                    },
+                    "lastname":{
+                        "type":"string"
+                    },
+                    "profession":{
+                        "type":"string"
+                    },
+                    "age":{
+                        "type":"integer",
+                        "format":"int64"
+                    },
+                }
+            }
+        }
+    },
+    apis:["app.js"]
+}
+const swaggerDocs=swaggerJsDoc(swaggerOptions)
+app.use('/api-docs',swaggerUi.serve, swaggerUi.setup(swaggerDocs))
 
 // Instanciar o express
 const app = express()
