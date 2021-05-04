@@ -2,49 +2,92 @@
 const { response } = require('express');
 const express = require('express')
 const mysql = require('mysql')
-const swaggerJsDoc=require('swagger-jsdoc')
-const swaggerUi=require('swagger-ui-express')
+const swaggerJsDoc = require('swagger-jsdoc')
+const swaggerUi = require('swagger-ui-express')
 
-const swaggerOptions={
-    swaggerDefinition:{
-        info:{
-            version:"1.0.0",
-            title:"Ficha 8",
-            description:"Ficha 8 Information",
-            contact:{
-                name:"TSPI-DWB"
+const swaggerOptions = {
+    swaggerDefinition: {
+        info: {
+            version: "1.0.0",
+            title: "Ficha 8",
+            description: "Ficha 8 Information",
+            contact: {
+                name: "TSPI-DWB"
             },
-            servers:["http://localhost:3000"],
+            servers: ["http://localhost:3000"],
         },
-        definitions:{
-            "Person":{
-                "type":"object",
-                "properties":{
-                    "id":{
-                        "type":"integer",
-                        "x-primary-key":true
+        definitions: {
+            "Person": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "x-primary-key": true
                     },
-                    "firstname":{
-                        "type":"string"
+                    "firstname": {
+                        "type": "string"
                     },
-                    "lastname":{
-                        "type":"string"
+                    "lastname": {
+                        "type": "string"
                     },
-                    "profession":{
-                        "type":"string"
+                    "profession": {
+                        "type": "string"
                     },
-                    "age":{
-                        "type":"integer",
-                        "format":"int64"
+                    "age": {
+                        "type": "integer",
+                        "format": "int64"
                     },
                 }
             }
         }
     },
-    apis:["app.js"]
+    apis: ["app.js"]
 }
-const swaggerDocs=swaggerJsDoc(swaggerOptions)
-app.use('/api-docs',swaggerUi.serve, swaggerUi.setup(swaggerDocs))
+const swaggerDocs = swaggerJsDoc(swaggerOptions)
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs))
+
+/**
+ * @swagger
+ * /person:
+ *  get:
+ *   tags:
+ *      -Person
+ *      summary: Gets a list of persons
+ *      description: Returns a list of persons
+ *      produces:
+ *          -application/json
+ *      responses:
+ *          200:
+ *              description: An array of persons
+ *              schema:
+ *                  $ref: '#/definitions/Person'
+ */
+app.get('/person', (request, response) => {
+})
+
+/**
+ * @swagger
+ * /person:
+ *  post:
+ *   tags:
+ *      -Person
+ *      summary: Creates and stores a person
+ *      description: Returns the id of the created person
+ *      produces:
+ *          -application/json
+ *      parameters:
+ *          -name:Model
+ *          description: Sample person
+ *          in: body
+ *          required: true
+ *          schema:
+ *              $ref: '#/definitions/Person'
+ *      responses:
+ *          200:
+ *              description: An array of persons
+ */
+app.post('/person', (request, response) => {
+})
 
 // Instanciar o express
 const app = express()
@@ -63,9 +106,9 @@ var dbconnection = mysql.createConnection({
 
 })
 
-app.get('/persons',(reques,response)=>{
-    dbconnection.query("SELECT * FROM persons",function(error,results,fields){
-        if(error){
+app.get('/persons', (reques, response) => {
+    dbconnection.query("SELECT * FROM persons", function (error, results, fields) {
+        if (error) {
             response.status(404)
             response.end(error.message)
         }
@@ -73,10 +116,10 @@ app.get('/persons',(reques,response)=>{
     })
 })
 
-app.post('/persons',(request,response)=>{
+app.post('/persons', (request, response) => {
     var details = request.body
-    dbconnection.query('INSERT INTO persons set ?',[details],(error,results,fields)=>{
-        if(error){
+    dbconnection.query('INSERT INTO persons set ?', [details], (error, results, fields) => {
+        if (error) {
             response.status(404)
             response.end(error.message)
         }
@@ -98,66 +141,66 @@ app.post('/persons',(request,response)=>{
 //localhost:3000/persons?id=1
 //request.query.id
 
-app.delete('/persons',(request,response)=>{
-    var id=request.body.id
-    dbconnection.query('DELETE FROM persons where ID=',id,(error,results,fields)=>{
-        if(error){
+app.delete('/persons', (request, response) => {
+    var id = request.body.id
+    dbconnection.query('DELETE FROM persons where ID=', id, (error, results, fields) => {
+        if (error) {
             response.status(404)
             response.end(error.message)
         }
-        response.send("Inserted ID is: " +  results.affectedRows + "entry(s)")
+        response.send("Inserted ID is: " + results.affectedRows + "entry(s)")
     })
 })
 
-app.get('/persons/:id',(request,response)=>{
-    var id=request.body.id
-    dbconnection.query('SELECT * FROM persons where ID=',id,(error,results,fields)=>{
-        if(error){
+app.get('/persons/:id', (request, response) => {
+    var id = request.body.id
+    dbconnection.query('SELECT * FROM persons where ID=', id, (error, results, fields) => {
+        if (error) {
             response.status(404)
             response.end(error.message)
         }
-        if(results.length==0){
+        if (results.length == 0) {
             response.status(404)
             response.end("ID not found")
         }
-        else{
+        else {
             response.send(results)
         }
     })
 })
 
-app.get('/persons/:id/:profession',(request,response)=>{
-    var age=request.params.age
-    var profession=request.params.profession
-    dbconnection.query('SELECT * FROM persons where AGE='+age+ ' AND PROFESSION '+profession, (error,results,fields)=>{
-        if(error){
+app.get('/persons/:id/:profession', (request, response) => {
+    var age = request.params.age
+    var profession = request.params.profession
+    dbconnection.query('SELECT * FROM persons where AGE=' + age + ' AND PROFESSION ' + profession, (error, results, fields) => {
+        if (error) {
             response.status(404)
             response.end(error.message)
         }
-        if(results.length==0){
+        if (results.length == 0) {
             response.status(404)
             response.end("ID not found")
         }
-        else{
+        else {
             response.send(results)
         }
     })
 })
 
-app.put('/persons/:id',(request,response)=>{
-    var id=request.params.id
-    var details=request.body
-    dbconnection.query('UPDATE persons ? where ID=?',[details,id],(error,results,fields)=>{
-        if(error){
+app.put('/persons/:id', (request, response) => {
+    var id = request.params.id
+    var details = request.body
+    dbconnection.query('UPDATE persons ? where ID=?', [details, id], (error, results, fields) => {
+        if (error) {
             response.status(404)
             response.end(error.message)
         }
-        if(results.length==0){
+        if (results.length == 0) {
             response.status(404)
             response.end("ID not found")
         }
-        else{
-            details.id=id
+        else {
+            details.id = id
             response.send(details)
         }
     })
