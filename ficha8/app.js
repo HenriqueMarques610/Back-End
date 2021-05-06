@@ -74,10 +74,17 @@ var dbConnection = mysql.createConnection({
  *              200:
  *                  description: And array of persons
  *                  schema:
- *                      &ref: '#/definitions/Person'
+ *                      $ref: '#/definitions/Person'
  */
 
-app.get('/persons', (request, response) => {
+app.get('/person', (req, res) => {
+
+    dbConnection.query('SELECT * FROM persons', (error, results, fields) => {
+        if (error) {
+            return res.status(404).send(error.message);
+        }
+        res.send(results);
+    });
 
 });
 
@@ -103,27 +110,8 @@ app.get('/persons', (request, response) => {
  *                  description: Sucessfully created
  */
 
-app.post('/persons', (request, response) => {
-
-});
-
-app.get('/persons', (req, res) => {
-
-    dbConnection.query('SELECT * FROM persons', (error, results, fields) => {
-        if (error) {
-            return res.status(404).send(error.message);
-        }
-        res.send(results);
-    });
-
-});
-
-/**
- * Create Person (Body)
- */
-app.post('/persons', (req, res) => {
+app.post('/person', (req, res) => {
     var details = req.body;
-
     dbConnection.query('INSERT INTO persons SET ?', [details], (error, results, fields) => {
         if (error) {
             res.status(404).send(error.message);
@@ -134,11 +122,28 @@ app.post('/persons', (req, res) => {
 });
 
 /**
- * Delete Person (Body)
+ * @swagger
+ * /person/:
+ *      delete:
+ *          tags:
+ *              - Person
+ *          summary: Deletes a person by id
+ *          description: Deletes a single person by id
+ *          produces:
+ *              - application/json
+ *          parameters:
+ *              - name: id
+ *                description: Person's id
+ *                in: body
+ *                required: true
+ *                type: string
+ *          responses:
+ *              200:
+ *                  description: Sucessfully created
  */
-app.delete('/persons', (req, res) => {
-    var id = req.body.id;
 
+app.delete('/person', (req, res) => {
+    var id = req.body.id;
     dbConnection.query('DELETE FROM persons WHERE id = ?', id, (error, results, fields) => {
         if (error) {
             res.status(404).send(error.message);
@@ -148,11 +153,27 @@ app.delete('/persons', (req, res) => {
 });
 
 /**
- * Delete Person (Params)
+ * @swagger
+ * /person/{id}:
+ *      delete:
+ *          tags:
+ *              - Person
+ *          summary: Deletes a person by id
+ *          description: Deletes a single person by id
+ *          produces:
+ *              - application/json
+ *          parameters:
+ *              - name: id
+ *                description: Person's id
+ *                in: path
+ *                required: true
+ *                type: string
+ *          responses:
+ *              200:
+ *                  description: Sucessfully created
  */
-app.delete('/persons/:id', (req, res) => {
+app.delete('/person/:id', (req, res) => {
     var id = req.params.id;
-
     dbConnection.query('DELETE FROM persons WHERE id = ?', id, (error, results, fields) => {
         if (error) {
             res.status(404).send(error.message);
@@ -162,11 +183,68 @@ app.delete('/persons/:id', (req, res) => {
 });
 
 /**
- * Get Person (Params)
+ * @swagger
+ * /person/{id}:
+ *      put:
+ *          tags:
+ *              - Person
+ *          summary: Updates and stores a person
+ *          description: Returns the id of the updated person
+ *          produces:
+ *              - application/json
+ *          parameters:
+ *              - name: id
+ *                description: Person's id
+ *                in: path
+ *                required: true
+ *              - name: Model
+ *                description: Sample Person
+ *                in: body
+ *                required: true
+ *                schema:
+ *                  $ref: '#/definitions/Person'
+ *          responses:
+ *              200:
+ *                  description: Sucessfully created
  */
-app.get('/persons/:id', (req, res) => {
+ app.put('/person/:id', (req, res) => {
     var id = req.params.id;
+    var details = req.body;
+    dbConnection.query('UPDATE persons SET ? WHERE id = ?', [details, id], (error, results, fields) => {
+        if (error) {
+            res.status(404).send(error.message);
+        }
 
+        if (results.length == 0) {
+            res.status(404).send("ID not found!");
+        } else {
+            details = {
+                id,
+                ...details
+            }
+            res.send(details);
+        }
+    });
+});
+
+/**
+ * @swagger
+ * /person/{id}:
+ *      get:
+ *          tags:
+ *              - Person
+ *          summary: Gets a list of persons
+ *          description: Returns a list of persons
+ *          produces:
+ *              - application/json
+ *          responses:
+ *              200:
+ *                  description: And array of persons
+ *                  schema:
+ *                      $ref: '#/definitions/Person'
+ */
+app.get('/person/:id', (req, res) => {
+    var id = req.params.id;
     dbConnection.query('SELECT * FROM persons WHERE id = ?', id, (error, results, fields) => {
         if (error) {
             res.status(404).send(error.message);
@@ -182,12 +260,24 @@ app.get('/persons/:id', (req, res) => {
 });
 
 /**
- * Get Persons Details - Age and Profession (Params)
+ * @swagger
+ * /person/{age},{profession}:
+ *      get:
+ *          tags:
+ *              - Person
+ *          summary: Gets a list of persons
+ *          description: Returns a list of persons
+ *          produces:
+ *              - application/json
+ *          responses:
+ *              200:
+ *                  description: And array of persons
+ *                  schema:
+ *                      $ref: '#/definitions/Person'
  */
-app.get('/persons/:age/:profession', (req, res) => {
+app.get('/person/:age/:profession', (req, res) => {
     var age = req.params.age;
     var profession = req.params.profession;
-
     dbConnection.query('SELECT * FROM persons WHERE age = ? AND profession = ?', [age, profession], (error, results, fields) => {
         if (error) {
             res.status(404).send(error.message);
@@ -197,30 +287,6 @@ app.get('/persons/:age/:profession', (req, res) => {
             res.status(404).send("Users not found!");
         } else {
             res.send(results);
-        }
-    });
-});
-
-/**
- * Update Person (Params and Body)
- */
-app.put('/persons/:id', (req, res) => {
-    var id = req.params.id;
-    var details = req.body;
-
-    dbConnection.query('UPDATE persons SET ? WHERE id = ?', [details, id], (error, results, fields) => {
-        if (error) {
-            res.status(404).send(error.message);
-        }
-
-        if (results.length == 0) {
-            res.status(404).send("ID not found!");
-        } else {
-            details = {
-                id,
-                ...details
-            }
-            res.send(details);
         }
     });
 });
