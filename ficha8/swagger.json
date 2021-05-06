@@ -1,0 +1,39 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "version": "1.0.0",
+        "title": "Ficha 8 API",
+        "description": "Ficha 8 API Information",
+        "contact": {
+            "name": "TPSI-DWB"
+        },
+        "servers": [
+            "http://localhost:3000"
+        ]
+    },
+    "paths": {},
+    "definitions": {
+        "Person": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer",
+                    "x-primary-key": true
+                },
+                "firstname": {
+                    "type": "string"
+                },
+                "lastname": {
+                    "type": "string"
+                },
+                "profession": {
+                    "type": "string"
+                },
+                "age": {
+                    "type": "integer",
+                    "format": "int64"
+                }
+            }
+        }
+    }
+}
