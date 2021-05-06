@@ -56,15 +56,40 @@
                 ],
                 "parameters":[
                     {
-                        "in":"path",
                         "name":"id",
+                        "in":"path",
                         "description":"The id that needs to be fetched. Use id 1 for testing",
                         "required":true,
-                        "type":"string",
+                        "type":"string"
+                    }
+                ],
+                "responses":{
+                    "200":{
+                        "description":"Successful operation",
                         "schema":{
                             "$ref":"#/definitions/Person"
                         }
+                    },
+                    "400":{
+                        "description":"Invalid id supplied"
+                    },
+                    "404":{
+                        "description":"Id not found"
                     }
+                }
+            }
+        },
+        "/person/":{
+            "get":{
+                "tags":[
+                    "person"
+                ],
+                "summary":"Get persons",
+                "description":"Get all persons",
+                "operationId":"getPersons",
+                "produces":[
+                    "application/xml",
+                    "application/json"
                 ],
                 "responses":{
                     "200":{
