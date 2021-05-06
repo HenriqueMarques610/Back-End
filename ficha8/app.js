@@ -237,6 +237,12 @@ app.delete('/person/:id', (req, res) => {
  *          description: Returns a list of persons
  *          produces:
  *              - application/json
+ *          parameters:
+ *              - name: id
+ *                description: Person's id
+ *                in: path
+ *                required: true
+ *                type: string
  *          responses:
  *              200:
  *                  description: And array of persons
@@ -261,7 +267,7 @@ app.get('/person/:id', (req, res) => {
 
 /**
  * @swagger
- * /person/{age},{profession}:
+ * /person/{age}/{profession}:
  *      get:
  *          tags:
  *              - Person
@@ -269,6 +275,17 @@ app.get('/person/:id', (req, res) => {
  *          description: Returns a list of persons
  *          produces:
  *              - application/json
+ *          parameters:
+ *              - name: age
+ *                description: Get person's age
+ *                in: path
+ *                required: true
+ *                type: string
+ *              - name: profession
+ *                description: Get person's profession
+ *                in: path
+ *                required: true
+ *                type: string
  *          responses:
  *              200:
  *                  description: And array of persons
