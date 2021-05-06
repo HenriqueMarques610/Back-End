@@ -58,7 +58,7 @@
                     {
                         "name":"id",
                         "in":"path",
-                        "description":"The id that needs to be fetched. Use id 1 for testing",
+                        "description":"Person id",
                         "required":true,
                         "type":"string"
                     }
@@ -69,12 +69,6 @@
                         "schema":{
                             "$ref":"#/definitions/Person"
                         }
-                    },
-                    "400":{
-                        "description":"Invalid id supplied"
-                    },
-                    "404":{
-                        "description":"Id not found"
                     }
                 }
             }
