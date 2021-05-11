@@ -1,0 +1,6 @@
+1-Criar pasta
+2-Criar app.js
+3-npm init
+4-Instalar dependencias
+5-Fazer requires das dependencias
+5-Criar Servidor http
