@@ -64,16 +64,68 @@ sequelize.sync({ force: false })
     console.log(person)
 }) */
 
-app.get('/person',(request,response)=>{
-    Person.findAll().then(person=>{
-        response.send(person)
-    })
-})
+// app.get('/person',(request,response)=>{
+//     Person.findAll().then(person=>{
+//         response.send(person)
+//     })
+// })
 
 app.post('/person',(request,response)=>{
     Person.create({firstname: "Joaquim", lastName: "Fernandes"}).then(person=>{
         response.send(person)
+        console.log("ID: ", person.id)
     })
+})
+
+//Com Body
+app.delete('/person',(request,response)=>{
+    Person.destroy({
+        where:{id:request.body.id},
+    }).catch(err => {
+        console.error("No user found", err)
+    })
+        response.send()
+})
+
+//Com Parametros
+app.delete('/person/:id',(request,response)=>{
+    Person.destroy({
+        where:{id:request.params.id},
+    }).catch(err => {
+        console.error("No user found", err)
+    })
+        response.send()
+})
+
+//Com query
+app.get('/person',(request,response)=>{
+    Person.findByPk(request.query.id).then(person=>{
+            response.send(person)
+        }).catch(err => {
+            console.error("No user found", err)
+        })
+})
+
+app.get('/person/:age/:profession',(request,response)=>{
+    Person.findAll({
+        where:{
+            age:request.params.age,
+            profession:request.params.profession
+        }
+    }).then(person=>{
+        response.send(person)
+    }).catch(err => {
+        response.send("No user found", err)
+    })
+})
+
+app.put('/person/:id',(request,response)=>{
+    Person.update({
+        where:{id:request.params.id}
+    }).catch(err => {
+        console.error("No user found", err)
+    })
+        response.send()
 })
 
 // Método que arranca o servidor http e fica à escuto
