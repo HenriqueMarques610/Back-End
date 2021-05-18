@@ -73,16 +73,16 @@ sequelize.sync({ force: false })
     });
 
 /* Product.bulkCreate([
-    {seller_id: 1,title:'Computador',description:'Computador Gaming',price:1000,url:"www.worten.pt",views:178,images:"C:\\Users\\Turma A\\Pictures\\Saved Pictures\\pcgaming",comments:"Muito Bom",tags:"pc"},
-    {seller_id: 2,title:'Rato',description:'Rato Wirelss',price:50,url:"www.worten.pt",views:121,images:"C:\\Users\\Turma A\\Pictures\\Saved Pictures\\ratowireless",comments:"Bom",tags:"rato"},
-    {seller_id: 3,title:'Teclado',description:'Teclado Mecanico',price:104,url:"www.worten.pt",views:134,images:"C:\\Users\\Turma A\\Pictures\\Saved Pictures\\tecladomecanico",comments:"Excelente",tags:"teclado"},
+    {seller_id: 1,title:'Computador',description:'Computador Gaming',price:1000,url:"www.worten.pt",views:178,images:"C:\\Users\\Turma A\\Pictures\\Saved Pictures\\pcgaming.png",comments:"Muito Bom",tags:"pc"},
+    {seller_id: 2,title:'Rato',description:'Rato Wirelss',price:50,url:"www.worten.pt",views:121,images:"C:\\Users\\Turma A\\Pictures\\Saved Pictures\\ratowireless.png",comments:"Bom",tags:"rato"},
+    {seller_id: 3,title:'Teclado',description:'Teclado Mecanico',price:104,url:"www.worten.pt",views:134,images:"C:\\Users\\Turma A\\Pictures\\Saved Pictures\\tecladomecanico.png",comments:"Excelente",tags:"teclado"},
 ]).then(function(){
     return Product.findAll()
 }).then(function(product){
     console.log(product)
 }) */
 
-//A - Certo
+//A - http://localhost:3000/product
 app.get('/product',(request,response)=>{
      Product.findAll()
      .then(product=>{
@@ -90,9 +90,9 @@ app.get('/product',(request,response)=>{
      })
 })
 
-//B - Certo
+//B - http://localhost:3000/product
 app.post('/product',(request,response)=>{
-    Product.create({seller_id: 1,title:'HDD',description:'HDD 1 TB',price:111,url:"www.worten.pt",views:134,images:"C:\\Users\\Turma A\\Pictures\\Saved Pictures\\hdd",comments:"Bom",tags:"hdd"})
+    Product.create({seller_id: 1,title:'HDD',description:'HDD 1 TB',price:111,url:"www.worten.pt",views:134,images:"C:\\Users\\Turma A\\Pictures\\Saved Pictures\\hdd.png",comments:"Bom",tags:"hdd"})
     .then(product=>{
         response.send({"Product Added with success.": product})
     })
@@ -108,31 +108,40 @@ app.get('/seller/:seller_id/product',(request,response)=>{
     })
 })
 
-//D - Certo
+//D - http://localhost:3000/product/1/incrementViews
 app.put('/product/:id/incrementViews',(request,response)=>{
     Product.findOne({
         where:{id:request.params.id}
     }).then(product=>{
         product.increment("views")
         product.reload()
-        response.send({"Views ": product.views})
+        response.send({"Updated Views ": product.views})
     }).catch(err => {
         console.error("Nothing found", err)
-    })
-        
+    })  
 })
 
-//E - Certo
-app.get('/product/:tags',(request,response)=>{
+
+
+//E - http://localhost:3000/product/tags?tags=rato
+app.get('/product/tags',(request,response)=>{
+    if(request.query.tags){
     Product.findAll({
         where:{
-            tags:request.params.tags
+            tags:request.query.tags
         }
     }).then(product=>{
         response.send({"Product found with this tag: ": product})
     }).catch(err => {
         response.send("No tags found", err)
     })
+}
+    else{
+        Product.findAll()
+        .then(product=>{
+            response.send({"All Products: ":product})
+     })
+    }
 })
 
 // Método que arranca o servidor http e fica à escuto
