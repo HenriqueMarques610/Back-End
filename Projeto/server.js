@@ -73,58 +73,63 @@ sequelize.sync({ force: false })
     });
 
 /* Product.bulkCreate([
-    {seller_id: 1,title:'Computador',description:'Computador Gaming',price:1000,url:"www.worten.pt",views:178,images:"pc gaming",comments:"Muito Bom"},
-    {seller_id: 2,title:'Rato',description:'Rato Wirelss',price:50,url:"www.worten.pt",views:121,images:"rato wireless",comments:"Bom"},
-    {seller_id: 3,title:'Teclado',description:'Teclado Mecanico',price:104,url:"www.worten.pt",views:134,images:"teclado mecanico",comments:"Excelente"},
+    {seller_id: 1,title:'Computador',description:'Computador Gaming',price:1000,url:"www.worten.pt",views:178,images:"pc gaming",comments:"Muito Bom",tags:"pc"},
+    {seller_id: 2,title:'Rato',description:'Rato Wirelss',price:50,url:"www.worten.pt",views:121,images:"rato wireless",comments:"Bom",tags:"rato"},
+    {seller_id: 3,title:'Teclado',description:'Teclado Mecanico',price:104,url:"www.worten.pt",views:134,images:"teclado mecanico",comments:"Excelente",tags:"teclado"},
 ]).then(function(){
     return Product.findAll()
-}).then(function(products){
-    console.log(products)
+}).then(function(product){
+    console.log(product)
 }) */
 
 //A - Certo
- app.get('/product',(request,response)=>{
-     Product.findAll().then(product=>{
-         response.send(product)
+app.get('/product',(request,response)=>{
+     Product.findAll()
+     .then(product=>{
+        response.send({"All Products: ":product})
      })
 })
 
 //B - Certo
 app.post('/product',(request,response)=>{
-    Product.create({seller_id: 1,title:'SSD',description:'SSD 256 GB',price:132,url:"www.worten.pt",views:178,images:"ssd",comments:"Bom"}).then(product=>{
-        response.send(product)
-        console.log("ID: ", product.id)
+    Product.create({seller_id: 1,title:'HDD',description:'HDD 1 TB',price:111,url:"www.worten.pt",views:134,images:"hdd",comments:"Bom",tags:"hdd"})
+    .then(product=>{
+        response.send({"Product Added with success.": product})
     })
 })
 
-//C - Nao sei se ta certo
-app.get('/product',(request,response)=>{
-    Product.findOne(request.query.seller_id).then(product=>{
-            response.send(product)
-        }).catch(err => {
-            console.error("No user found", err)
-        })
+//C - Certo
+app.get('/seller/:seller_id/product',(request,response)=>{
+    Product.findOne(request.query.seller_id)
+    .then(product=>{
+        response.send(product)
+    }).catch(err => {
+        console.error("No user found", err)
+    })
 })
 
-//D - Nao sei se ta certo
-app.put('/product/:views',(request,response)=>{
-    Product.update({
-        where:{views:request.params.views}
+//D - Certo
+app.put('/product/:id/incrementViews',(request,response)=>{
+    Product.findOne({
+        where:{id:request.params.id}
+    }).then(product=>{
+        product.increment("views")
+        product.reload()
+        response.send({"Views ": product.views})
     }).catch(err => {
         console.error("Nothing found", err)
     })
-        response.send()
-        console.log("Views: ", product.views)
+        
 })
 
 //E - Certo
-app.get('/person/:tags',(request,response)=>{
+app.get('/product/:tags',(request,response)=>{
     Product.findAll({
         where:{
             tags:request.params.tags
         }
     }).then(product=>{
-        response.send(product)
+        response.send({"Product found with this tag: ": product})
     }).catch(err => {
         response.send("No tags found", err)
     })
