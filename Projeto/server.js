@@ -99,10 +99,12 @@ app.post('/product',(request,response)=>{
 })
 
 //C - Certo
-app.get('/seller/:seller_id/product',(request,response)=>{
-    Product.findOne(request.query.seller_id)
+app.get('/product/seller',(request,response)=>{
+    Product.findAll({
+        where:{tags:request.query.tags}
+    })
     .then(product=>{
-        response.send(product)
+        response.send({"Seller: ":product})
     }).catch(err => {
         console.error("No user found", err)
     })
@@ -127,9 +129,7 @@ app.put('/product/:id/incrementViews',(request,response)=>{
 app.get('/product/tags',(request,response)=>{
     if(request.query.tags){
     Product.findAll({
-        where:{
-            tags:request.query.tags
-        }
+        where:{tags:request.query.tags}
     }).then(product=>{
         response.send({"Product found with this tag: ": product})
     }).catch(err => {
