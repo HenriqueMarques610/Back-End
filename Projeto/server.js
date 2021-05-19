@@ -95,6 +95,8 @@ app.post('/product',(request,response)=>{
     Product.create({seller_id: 1,title:'HDD',description:'HDD 1 TB',price:111,url:"www.worten.pt",views:134,images:"C:\\Users\\Turma A\\Pictures\\Saved Pictures\\hdd.png",comments:"Bom",tags:"hdd"})
     .then(product=>{
         response.send({"Product Added with success.": product})
+    }).catch(err => {
+        console.error("User not added", err)
     })
 })
 
@@ -140,7 +142,9 @@ app.get('/product/tags',(request,response)=>{
         Product.findAll()
         .then(product=>{
             response.send({"All Products: ":product})
-     })
+     }).catch(err => {
+        response.send("No products found", err)
+    })
     }
 })
 
