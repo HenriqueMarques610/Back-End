@@ -98,7 +98,7 @@ app.post('/product',(request,response)=>{
     })
 })
 
-//C - Certo
+//C - http://localhost:3000/product/seller_id?seller_id=2
 app.get('/product/seller_id',(request,response)=>{
     Product.findAll({
         where:{seller_id:request.query.seller_id}
