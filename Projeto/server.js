@@ -83,12 +83,12 @@ sequelize.sync({ force: false })
 }) */
 
 //A - http://localhost:3000/product
-app.get('/product',(request,response)=>{
+/* app.get('/product',(request,response)=>{
      Product.findAll()
      .then(product=>{
         response.send({"All Products: ":product})
      })
-})
+}) */
 
 //B - http://localhost:3000/product
 app.post('/product',(request,response)=>{
@@ -99,9 +99,9 @@ app.post('/product',(request,response)=>{
 })
 
 //C - Certo
-app.get('/product/seller',(request,response)=>{
+app.get('/product/seller_id',(request,response)=>{
     Product.findAll({
-        where:{tags:request.query.tags}
+        where:{seller_id:request.query.seller_id}
     })
     .then(product=>{
         response.send({"Seller: ":product})
