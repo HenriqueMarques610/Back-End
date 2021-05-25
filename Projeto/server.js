@@ -83,16 +83,19 @@ sequelize.sync({ force: false })
 }) */
 
 //A - http://localhost:3000/product
-/* app.get('/product',(request,response)=>{
+app.get('/product',(request,response)=>{
      Product.findAll()
      .then(product=>{
         response.send({"All Products: ":product})
-     })
-}) */
+     }).catch(err => {
+        console.error("No products found", err)
+    }) 
+})
 
 //B - http://localhost:3000/product
 app.post('/product',(request,response)=>{
-    Product.create({seller_id: 1,title:'HDD',description:'HDD 1 TB',price:111,url:"www.worten.pt",views:134,images:"C:\\Users\\Turma A\\Pictures\\Saved Pictures\\hdd.png",comments:"Bom",tags:"hdd"})
+    
+    Product.create({seller_id: 1,title:request.body.title,description:'HDD 1 TB',price:111,url:"www.worten.pt",views:134,images:"C:\\Users\\Turma A\\Pictures\\Saved Pictures\\hdd.png",comments:"Bom",tags:"hdd"})
     .then(product=>{
         response.send({"Product Added with success.": product})
     }).catch(err => {
