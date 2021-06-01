@@ -20,10 +20,10 @@ module.exports = function (passport) {
     passport.deserializeUser(function (id, done) {
         // TODO Sequelize query to return the user from the DB
         User.findOne({
-            where:{id:id}
-        }).then(result=>{
-            done(null,result)
-        }).catch(err=>{
+            where: { id: id }
+        }).then(result => {
+            done(null, result)
+        }).catch(err => {
             done(err)
         })
     });
@@ -51,7 +51,7 @@ module.exports = function (passport) {
                         })
                 }
                 else {
-                    return done(null,false,req.flash("signupMessage","That email is already taken"))
+                    return done(null, false, req.flash("signupMessage", "That email is already taken"))
                 }
             }).catch(err => {
                 return done(err)
@@ -69,6 +69,18 @@ module.exports = function (passport) {
         passwordField: 'password',
         passReqToCallback: true // allows us to pass back the entire request to the callback
     },
-        function (req, email, password, done) { // callback with email and password from our form                        
+        function (req, email, password, done) {
+            User.findOne({
+                where: { email: email }
+            }).then(user => {
+                if (user.password == password) {
+                    return done(null, user); 
+                }
+                else {
+                    return done(null, false, req.flash("loginMessage", "Login was not sucessful"))
+                }
+            }).catch(err => {
+                return done(err)
+            })
         }));
 };

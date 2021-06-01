@@ -22,6 +22,11 @@ module.exports = function (app, passport) {
     // redirect back to the signup page if there is an error
     // allow flash messages 
 
+    app.post('/login', passport.authenticate("local-login", {
+        successRedirect: "/profile",
+        failureRedirect: "/login",
+        failureFlash: true
+    }))
 
     // =====================================
     // SIGNUP ==============================
@@ -52,8 +57,8 @@ module.exports = function (app, passport) {
     // we will use route middleware to verify this (the isLoggedIn function)
     // get the user out of session and pass to template
 
-    app.get('/profile', function (req, res) {
-        res.render('profile.ejs', { message: req.flash("profileMessage") }); // load the index.ejs file
+    app.get('/profile',isLoggedIn, function (req, res) {
+        res.render('profile.ejs', { user: req.user }); // get the user out of session and pass to template
     });
 
     // =====================================

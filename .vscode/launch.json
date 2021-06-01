@@ -11,7 +11,7 @@
             "skipFiles": [
                 "<node_internals>/**"
             ],
-            "program": "${workspaceFolder}\\ficha5\\server.js"
+            "program": "${workspaceFolder}\\ficha10\\auth_template\\app.js"
         }
     ]
 }
