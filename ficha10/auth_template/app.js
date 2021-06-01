@@ -15,9 +15,17 @@ app.use(passport.initialize());
 app.use(passport.session()); // persistent login sessions
 app.use(flash()); // use connect-flash for flash messages stored in session
 
+app.use(testMiddleWare);
+function testMiddleWare(req, res, next) {
+    console.log("TESTE MIDDLEWARE");
+    return next();
+}
 // default routes ======================================================================
 require('./controllers/passportController')(passport); // pass passport for configuration
 require('./routes/index.js')(app, passport); // load our routes and pass in our app and fully configured passport
+
+var userRouter=require('../auth_template/routes/user.js');
+app.use('/user',userRouter)
 
 // TODO Add custom routes ======================================================================
 

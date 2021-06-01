@@ -1,0 +1,4 @@
+1-Adiconar ficheiro no router
+2-adicionar um controller
+3-adicionar um modelo
+4-adicionar rota ao servidor

@@ -57,7 +57,7 @@ module.exports = function (app, passport) {
     // we will use route middleware to verify this (the isLoggedIn function)
     // get the user out of session and pass to template
 
-    app.get('/profile',isLoggedIn, function (req, res) {
+    app.get('/profile', isLoggedIn, function (req, res) {
         res.render('profile.ejs', { user: req.user }); // get the user out of session and pass to template
     });
 
@@ -66,6 +66,11 @@ module.exports = function (app, passport) {
     // =====================================
     // TODO 6 - logout user GET
     // redirect to root
+
+    app.get('/logout', function (req, res) {
+        req.logout();
+        res.redirect('/');
+    });
 };
 
 // route middleware to make sure a user is logged in
