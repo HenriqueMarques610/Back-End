@@ -27,7 +27,7 @@ exports.deletePersons = function (req, res, next) {
         })
 }
 
-//COM PARAMETROS
+//COM PARAMETROS / FAZER IF SE TIVER NULL
 exports.getPersons1 = function (req, res, next) {
     Person.findAll({
         where:{id:req.params.id}
