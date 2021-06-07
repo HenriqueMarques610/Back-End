@@ -1,1 +1,5 @@
 Model,Sequelize,app,Controller,Routes
+
+SEQUELIZE 
+
+CREATE,DESTROY,FINDALL/FINDONE,UPDATE

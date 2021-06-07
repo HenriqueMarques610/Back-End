@@ -3,7 +3,7 @@ module.exports = (sequelize, type) => {
         firstname: {
             type: type.TEXT,
         },
-        lastName: {
+        lastname: {
             type: type.TEXT,
         },
         profession: {

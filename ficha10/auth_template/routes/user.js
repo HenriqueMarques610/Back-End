@@ -5,7 +5,8 @@ var userController=require('../controllers/userController')
 
 router.use(isLoggedIn)
 
-router.get('/',userController.getUser) 
+router.get('/',userController.getUser)
+router.get('/',userController.postUser)
 
 router.get('/test',userController.getTest)
 
