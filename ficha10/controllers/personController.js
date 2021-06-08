@@ -46,7 +46,7 @@ exports.putPersons = function (req, res, next) {
             where:{id:req.params.id}
         })
         .then(result => {
-            res.send({ "Person Updated with success.": result })
+            res.send({ "Person Updated with success": result })
         }).catch(err => {
             console.error("User not added", err)
         })
