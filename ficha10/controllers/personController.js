@@ -38,3 +38,16 @@ exports.getPersons1 = function (req, res, next) {
         console.error("No user found", err)
     })
 }
+
+exports.putPersons = function (req, res, next) {
+    var details=req.body
+    Person.update(details,
+        {
+            where:{id:req.params.id}
+        })
+        .then(result => {
+            res.send({ "Person Updated with success.": result })
+        }).catch(err => {
+            console.error("User not added", err)
+        })
+}
