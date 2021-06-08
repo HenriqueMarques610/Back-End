@@ -11,4 +11,6 @@ router.delete('/', personController.deletePersons);
 
 router.get('/:id', personController.getPersons1);
 
+router.put('/:id', personController.putPersons);
+
 module.exports = router;
