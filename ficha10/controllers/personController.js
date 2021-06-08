@@ -19,18 +19,18 @@ exports.postPersons = function (req, res, next) {
 
 //COM QUERY / FAZER IF SE TIVER NULL
 exports.deletePersons = function (req, res, next) {
-    if(req.query.id==undefined){
+    if (req.query.id == undefined) {
         res.send("User not found or doesn´t exist")
     }
-    else{
-    Person.destroy({
-        where: { id: req.query.id }
-    }).then(result => {
-        res.send({ "Person Deleted with success.": result })
-    }).catch(err => {
-        console.error("User not added", err)
-    })
-}
+    else {
+        Person.destroy({
+            where: { id: req.query.id }
+        }).then(result => {
+            res.send({ "Person Deleted with success.": result })
+        }).catch(err => {
+            console.error("User not added", err)
+        })
+    }
 }
 
 //COM PARAMETROS 
