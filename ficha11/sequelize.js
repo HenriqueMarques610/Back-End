@@ -1,7 +1,5 @@
 const Sequelize = require('sequelize')
-const PersonModel = require('./models/person')
-var dotenv=require("dotenv")
-dotenv.config();
+const UserModel = require('./models/user')
 
 const sequelize = new Sequelize(process.env.DB_SCHEMA, process.env.DB_USER, "", {
     dialect: 'mysql',
@@ -14,7 +12,7 @@ const sequelize = new Sequelize(process.env.DB_SCHEMA, process.env.DB_USER, "", 
     }
 })
 
-const Person = PersonModel(sequelize, Sequelize)
+const User = UserModel(sequelize, Sequelize)
 
 sequelize.authenticate()
     .then(() => {
@@ -25,5 +23,5 @@ sequelize.authenticate()
     })
 
 module.exports = {
-    Person
+    User
 }

@@ -36,15 +36,15 @@ exports.login = function (req, res) {
             req.flash('loginMessage', 'No user found with that email')
             res.redirect('/login')
         }
-        else if(user.password!=password){
-            req.flash('loginMessage','Wrong Password')
+        else if (user.password != password) {
+            req.flash('loginMessage', 'Wrong Password')
             res.redirect('/login')
         }
         else {
             const token = generateAcessToken(email, password)
             req.session.user = user
             req.session.token = token
-            res.cookie('acess token', token, {
+            res.cookie('acess token ', token, {
                 expires: new Date(Date.now() + 8 * 3600000)
             }).redirect('profile')
         }
