@@ -17,11 +17,11 @@ exports.signup = function (req, res) {
                     var token = generateAcessToken(email, password)
                     req.session.user = user
                     req.session.token = token
-                    res.redirect('profile')
+                    res.redirect('/profile')
                 })
         }
         else {
-            return done(null, false, req.flash("signupMessage", "That email is already taken"))
+            res.redirect('/signup')
         }
     }).catch(err => {
         return done(err)
@@ -29,6 +29,8 @@ exports.signup = function (req, res) {
 }
 
 exports.login = function (req, res) {
+    var { email } = req.body
+    var { password } = req.body
     User.findOne({
         where: { email: email }
     }).then(user => {
@@ -44,12 +46,12 @@ exports.login = function (req, res) {
             const token = generateAcessToken(email, password)
             req.session.user = user
             req.session.token = token
-            res.cookie('acess token ', token, {
+            res.cookie('acess_token ', token, {
                 expires: new Date(Date.now() + 8 * 3600000)
-            }).redirect('profile')
+            }).redirect('/profile')
         }
     }).catch(err => {
         req.flash('loginMessage', err)
-        res.redirect('login')
+        res.redirect('/login')
     })
 }

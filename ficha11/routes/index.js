@@ -16,8 +16,8 @@ router.get('/signup', function (req, res) {
   res.render('signup.ejs', { message: req.flash("signupMessage") }); // load the index.ejs file
 });
 
-router.get('/profile', authenticateTokenFromSession, function (req, res) {
-  res.render('profile.ejs', { user: req.user }); // get the user out of session and pass to template
+router.get('/profile', function (req, res) {
+  res.render('profile.ejs', { user: req.session.user, token: req.session.token }); // get the user out of session and pass to template
 });
 
 router.post('/login', indexController.login)
